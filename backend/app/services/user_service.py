@@ -28,11 +28,3 @@ def authenticate_user(username: str, password: str, db: Session) -> User:
     if (not user) or (user.password != password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     return user
-
-def delete_user(username: str, password: str, db: Session) -> None:
-    user = authenticate_user(username, password, db)
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    db.delete(user)
-    db.commit()
-    return None
