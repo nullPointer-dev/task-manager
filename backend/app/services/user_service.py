@@ -25,7 +25,7 @@ def get_user(username: str, db: Session) -> User:
 
 def authenticate_user(username: str, password: str, db: Session) -> User:
     user = db.query(User).filter(User.username == username).first()
-    if not user or user.password != password:
+    if (not user) or (user.password != password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     return user
 

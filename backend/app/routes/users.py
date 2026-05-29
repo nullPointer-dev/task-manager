@@ -14,7 +14,11 @@ def create_user_route(user_data: UserCreate, db: Session = Depends(get_db)):
 def get_user_route(username: str, db: Session = Depends(get_db)):
     return get_user(username, db)
 
-@router_users.delete("/{username}")
+@router_users.post("/login", response_model=UserResponse)
+def authenticate_user_route(user_data: UserLogin, db: Session = Depends(get_db)):
+    return authenticate_user(user_data.username, user_data.password, db)
+
+@router_users.post("/{username}")
 def delete_user_route(
     username: str,
     credentials: UserPassword,
@@ -22,7 +26,3 @@ def delete_user_route(
 ):
     delete_user(username, credentials.password, db)
     return {"message": "User deleted successfully"}
-
-@router_users.post("/login", response_model=UserResponse)
-def authenticate_user_route(user_data: UserLogin, db: Session = Depends(get_db)):
-    return authenticate_user(user_data.username, user_data.password, db)
