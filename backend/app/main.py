@@ -1,7 +1,7 @@
-from models import User, Task
+from app.models import User, Task
 from fastapi import FastAPI, HTTPException, Depends 
-from core import engine, Base
-from routes import router_users, router_tasks
+from app.core import engine, Base
+from app.routes import router_users, router_tasks
 from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)

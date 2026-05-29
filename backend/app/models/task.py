@@ -2,7 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from core import Base  
+from app.core import Base  
 
 class Task(Base):
     __tablename__ = "tasks"
