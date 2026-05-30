@@ -1,67 +1,60 @@
 # Task Manager
 
-Task Manager application built using React, FastAPI, PostgreSQL, and SQLAlchemy.
+Task Manager app built with React, FastAPI, PostgreSQL, and SQLAlchemy.
+[Visit Here](https://task-manager-frontend-tawny-delta.vercel.app/)
+[Backend Swagger Docs](https://task-manager-backend-cndl.onrender.com/docs)
+
 ---
 
 ## Features
-((I used fake login sessions btw because didn't know JWT auth properly))
-- User Registration
-- User Login
-- Create Tasks
-- View Tasks
-- Edit Tasks
-- Delete Tasks
+
+- User Registration & Login (JWT auth)
+- Create, View, Edit, Delete Tasks
 - Mark Tasks as Complete/Incomplete
 - Filter Tasks (All / Pending / Completed)
-- PostgreSQL Database Persistence
 
 ---
 
 ## Tech Stack
 
 ### Frontend
-- React
-- React Router DOM
-- Axios
-- CSS
+- React 19, React Router DOM 7, Axios
+- Vite (build tool), CSS
 
 ### Backend
-- FastAPI
-- SQLAlchemy ORM
-- Pydantic
+- FastAPI, SQLAlchemy ORM, Pydantic
+- JWT + bcrypt for auth, python-dotenv
 
 ### Database
 - PostgreSQL
 
 ---
 
-
 ## Database Schema
 
 ### Users
 
-| Column | Type |
-|----------|----------|
-| id | Integer |
-| username | String |
-| password | String |
-| created_at | DateTime |
+| Column     | Type    |
+|------------|---------|
+| id         | Integer |
+| username   | String (unique) |
+| password   | String (hashed) |
+| created_at | DateTime (with tz) |
 
 ### Tasks
 
-| Column | Type |
-|----------|----------|
-| id | Integer |
-| title | String |
-| description | String |
-| completed | Boolean |
-| created_at | DateTime |
-| owner_id | Integer (Foreign Key) |
+| Column      | Type    |
+|-------------|---------|
+| id          | Integer |
+| title       | String  |
+| description | String  |
+| completed   | Boolean |
+| created_at  | DateTime|
+| owner_id    | Integer (FK - users.id) |
 
 ### Relationship
 
-- One User can have many Tasks
-- One Task belongs to exactly one User
+- One User has many Tasks (cascade delete)
 
 ---
 
@@ -69,29 +62,34 @@ Task Manager application built using React, FastAPI, PostgreSQL, and SQLAlchemy.
 
 ### User Routes
 
-| Method | Endpoint | Description |
-|----------|----------|----------|
-| POST | /users | Register User |
-| POST | /users/login | Login User |
-| GET | /users/{username} | Get User |
+| Method | Endpoint     | Description       |
+|--------|-------------|-------------------|
+| POST   | /register   | Register user     |
+| POST   | /login      | Login (returns JWT) |
+| GET    | /{username} | Get user by username |
 
-### Task Routes
+### Task Routes (all require `Authorization: Bearer <token>`)
 
-| Method | Endpoint | Description |
-|----------|----------|----------|
-| POST | /users/{username}/tasks | Create Task |
-| GET | /users/{username}/tasks | Get All Tasks |
-| GET | /users/{username}/tasks/{task_id} | Get Single Task |
-| PUT | /users/{username}/tasks/{task_id} | Update Task |
-| DELETE | /users/{username}/tasks/{task_id} | Delete Task |
+| Method | Endpoint        | Description    |
+|--------|-----------------|----------------|
+| POST   | /tasks/         | Create task    |
+| GET    | /tasks/         | Get all tasks  |
+| GET    | /tasks/{id}     | Get single task |
+| PUT    | /tasks/{id}     | Update task    |
+| DELETE | /tasks/{id}     | Delete task    |
+
+### Other
+
+| Method | Endpoint | Description       |
+|--------|----------|-------------------|
+| GET    | /        | API welcome message |
 
 ---
 
-## Application Workflow
+## Workflow
 
-1. User registers an account.
-2. User logs in.
-3. Frontend stores the username locally.
-4. Dashboard fetches tasks from FastAPI.
-5. CRUD operations are performed through REST APIs.
-6. Tasks are persisted in PostgreSQL.
+1. Register an account.
+2. Login — JWT token is stored in the frontend.
+3. Dashboard fetches tasks via authenticated API calls.
+4. CRUD operations go through the REST API.
+5. Tasks are persisted in PostgreSQL.
