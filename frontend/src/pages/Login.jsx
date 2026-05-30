@@ -15,7 +15,7 @@ function Login() {
 
         try {
 
-            const user =
+            const tokenResponse =
                 await login(
                     username,
                     password
@@ -23,7 +23,12 @@ function Login() {
 
             localStorage.setItem(
                 "username",
-                user.username
+                username
+            );
+
+            localStorage.setItem(
+                "access_token",
+                tokenResponse.access_token
             );
 
             navigate("/dashboard");
