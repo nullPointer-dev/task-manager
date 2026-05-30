@@ -3,38 +3,58 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.core import get_db
 from app.schemas import TaskCreate, TaskUpdate, TaskResponse
+from app.dependencies import get_current_user
+from app.models import User
 
-router_tasks = APIRouter(prefix="/users/{username}/tasks", tags=["tasks"])
+router_tasks = APIRouter(prefix="/tasks", tags=["tasks"])
 
 @router_tasks.post("/", response_model=TaskResponse)
-def create_task_route(username: str, task_data: TaskCreate, db: Session = Depends(get_db)):
-    get_user(username, db)
-    return create_task(username, task_data, db)
+def create_task_route(
+    task_data: TaskCreate, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    return create_task(current_user.username, task_data, db)
 
 @router_tasks.get("/", response_model=list[TaskResponse])
-def get_tasks_route(username: str, db: Session = Depends(get_db)):
-    get_user(username, db)
-    return get_tasks(username, db)
+def get_tasks_route(
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    return get_tasks(current_user.username, db)
 
 @router_tasks.get("/{task_id}", response_model=TaskResponse)
-def get_task_route(username: str, task_id: int, db: Session = Depends(get_db)):
-    user = get_user(username, db)
+def get_task_route(
+    task_id: int, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
     if not task or task.owner_id != user.id:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
 
 @router_tasks.put("/{task_id}", response_model=TaskResponse)
-def update_task_route(username: str, task_id: int, task_data: TaskUpdate, db: Session = Depends(get_db)):
-    user = get_user(username, db)
+def update_task_route(
+    task_id: int, 
+    task_data: TaskUpdate, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
     if not task or task.owner_id != user.id:
         raise HTTPException(status_code=404, detail="Task not found")
     return update_task(task_id, task_data, db)
 
 @router_tasks.delete("/{task_id}")
-def delete_task_route(username: str, task_id: int, db: Session = Depends(get_db)):
-    user = get_user(username, db)
+def delete_task_route(
+    task_id: int, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
     if not task or task.owner_id != user.id:
         raise HTTPException(status_code=404, detail="Task not found")
