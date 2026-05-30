@@ -168,32 +168,57 @@ function Dashboard() {
     });
 
     return (
-        <div>
+        <div className="app-shell">
+            <div className="topbar">
+                <Navbar username={username || "User"} />
+                <AddTaskButton
+                    onClick={() => {
+                        setEditingTask(null);
+                        setShowModal(true);
+                    }}
+                />
+            </div>
 
-            <Navbar username={username || "User"} />
-
-            <AddTaskButton
-                onClick={() => {
-                    setEditingTask(null);
-                    setShowModal(true);
-                }}
-            />
-
-            <div>
+            <div className="filter-tabs">
                 <button
+                    className={
+                        `filter-tab ${
+                            filter === "all"
+                                ? "active"
+                                : ""
+                        }`
+                    }
                     onClick={() => setFilter("all")}
                 >
                     All
                 </button>
 
                 <button
-                    onClick={() => setFilter("pending")}
+                    className={
+                        `filter-tab ${
+                            filter === "pending"
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                    onClick={() =>
+                        setFilter("pending")
+                    }
                 >
                     Pending
                 </button>
 
                 <button
-                    onClick={() => setFilter("completed")}
+                    className={
+                        `filter-tab ${
+                            filter === "completed"
+                                ? "active"
+                                : ""
+                        }`
+                    }
+                    onClick={() =>
+                        setFilter("completed")
+                    }
                 >
                     Completed
                 </button>
@@ -220,7 +245,6 @@ function Dashboard() {
                     />
                 )
             }
-
         </div>
     );
 }

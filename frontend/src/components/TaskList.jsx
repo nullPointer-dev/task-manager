@@ -7,7 +7,7 @@ function TaskList({
     onEdit
 }) {
     return (
-        <>
+        <div className="task-list">
             {
                 tasks.map(task => (
                     <TaskCard
@@ -19,7 +19,7 @@ function TaskList({
                     />
                 ))
             }
-        </>
+        </div>
     );
 }
 

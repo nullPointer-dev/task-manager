@@ -1,7 +1,10 @@
 function AddTaskButton({ onClick }) {
     return (
-        <button onClick={onClick}>
-            + Add Task
+        <button
+            className="add-task-button"
+            onClick={onClick}
+        >
+            + Add task
         </button>
     );
 }

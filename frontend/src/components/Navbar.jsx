@@ -17,14 +17,20 @@ function Navbar({ username }) {
     }
 
     return (
-        <div>
-            <h2>{username}</h2>
-
-            <button
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
+        <div className="navbar">
+            <div className="navbar-left">
+                <span className="navbar-username">
+                    {username}
+                </span>
+            </div>
+            <div className="navbar-right">
+                <button
+                    className="ghost-button"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
+            </div>
         </div>
     );
 }

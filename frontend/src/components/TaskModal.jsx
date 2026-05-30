@@ -53,63 +53,96 @@ function TaskModal({
         }
     }
 
+    const createdDate = editingTask?.created_at
+        ? new Date(editingTask.created_at)
+        : null;
+    const formattedDate = createdDate &&
+        !Number.isNaN(createdDate.getTime())
+        ? createdDate.toLocaleDateString(
+            "en-GB",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        )
+        : editingTask?.created_at || "";
+
     return (
-        <div
-            style={{
-                border: "1px solid black",
-                padding: "20px",
-                marginTop: "20px"
-            }}
-        >
-            <h2>
+        <div className="modal-backdrop">
+            <div className="modal-card">
+                <div className="modal-header">
+                    <h2>
+                        {
+                            editingTask
+                                ? "Edit task"
+                                : "Create task"
+                        }
+                    </h2>
+                    <button
+                        className="icon-button"
+                        onClick={onClose}
+                        aria-label="Close modal"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div className="modal-body">
+                    <label className="modal-label">
+                        Title
+                    </label>
+                    <input
+                        className="modal-input"
+                        type="text"
+                        placeholder="Task title"
+                        value={title}
+                        onChange={(e) =>
+                            setTitle(e.target.value)
+                        }
+                    />
+
+                    <label className="modal-label">
+                        Description
+                    </label>
+                    <textarea
+                        className="modal-textarea"
+                        placeholder="Task description"
+                        value={description}
+                        onChange={(e) =>
+                            setDescription(e.target.value)
+                        }
+                    />
+                </div>
+
                 {
-                    editingTask
-                        ? "Edit Task"
-                        : "Create Task"
+                    editingTask && formattedDate && (
+                        <div className="modal-meta">
+                            <span>Created</span>
+                            <span>{formattedDate}</span>
+                        </div>
+                    )
                 }
-            </h2>
 
-            <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(e) =>
-                    setTitle(e.target.value)
-                }
-            />
-
-            <br />
-            <br />
-
-            <textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) =>
-                    setDescription(e.target.value)
-                }
-            />
-
-            <br />
-            <br />
-
-            <button
-                onClick={handleSave}
-            >
-                {
-                    editingTask
-                        ? "Update"
-                        : "Save"
-                }
-            </button>
-
-            <button
-                onClick={onClose}
-                style={{
-                    marginLeft: "10px"
-                }}
-            >
-                Cancel
-            </button>
+                <div className="modal-actions">
+                    <button
+                        className="secondary-button"
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        className="primary-button"
+                        onClick={handleSave}
+                    >
+                        {
+                            editingTask
+                                ? "Save changes"
+                                : "Create task"
+                        }
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
