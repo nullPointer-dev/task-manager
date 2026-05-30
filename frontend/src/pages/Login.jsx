@@ -45,63 +45,79 @@ function Login() {
     }
 
     return (
-        <div>
-
-            <h1>Login</h1>
-
-            <form onSubmit={handleLogin}>
-
-                <div>
-                    <label>Username</label>
-
-                    <br />
-
-                    <input
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(event) =>
-                            setUsername(
-                                event.target.value
-                            )
-                        }
-                    />
+        <div className="auth-page">
+            <div className="auth-card">
+                <div className="auth-tabs">
+                    <Link
+                        className="auth-tab active"
+                        to="/login"
+                    >
+                        Login
+                    </Link>
+                    <Link
+                        className="auth-tab"
+                        to="/register"
+                    >
+                        Register
+                    </Link>
                 </div>
 
-                <br />
+                <form
+                    onSubmit={handleLogin}
+                    className="auth-form"
+                >
+                    <div className="auth-field">
+                        <label className="auth-label">
+                            Username
+                        </label>
+                        <input
+                            className="auth-input"
+                            type="text"
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(event) =>
+                                setUsername(
+                                    event.target.value
+                                )
+                            }
+                        />
+                    </div>
 
-                <div>
-                    <label>Password</label>
+                    <div className="auth-field">
+                        <label className="auth-label">
+                            Password
+                        </label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(event) =>
+                                setPassword(
+                                    event.target.value
+                                )
+                            }
+                        />
+                    </div>
 
-                    <br />
+                    <button
+                        type="submit"
+                        className="primary-button auth-submit"
+                    >
+                        Login
+                    </button>
 
-                    <input
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(event) =>
-                            setPassword(
-                                event.target.value
-                            )
-                        }
-                    />
-                </div>
-
-                <br />
-
-                <button type="submit">
-                    Login
-                </button>
-
-                <br />
-                <br />
-
-                <Link to="/register">
-                    Do not have an account? Register here
-                </Link>
-
-            </form>
-
+                    <p className="auth-footer">
+                        Don&apos;t have an account?{" "}
+                        <Link
+                            className="auth-link"
+                            to="/register"
+                        >
+                            Register
+                        </Link>
+                    </p>
+                </form>
+            </div>
         </div>
     );
 }

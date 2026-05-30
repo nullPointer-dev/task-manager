@@ -42,88 +42,96 @@ function Register() {
     }
 
     return (
-        <div>
-
-            <h1>Register</h1>
-
-            <form onSubmit={handleRegister}>
-
-                <div>
-
-                    <label>Username</label>
-
-                    <br />
-
-                    <input
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(event) =>
-                            setUsername(
-                                event.target.value
-                            )
-                        }
-                    />
-
+        <div className="auth-page">
+            <div className="auth-card">
+                <div className="auth-tabs">
+                    <Link
+                        className="auth-tab"
+                        to="/login"
+                    >
+                        Login
+                    </Link>
+                    <Link
+                        className="auth-tab active"
+                        to="/register"
+                    >
+                        Register
+                    </Link>
                 </div>
 
-                <br />
+                <form
+                    onSubmit={handleRegister}
+                    className="auth-form"
+                >
+                    <div className="auth-field">
+                        <label className="auth-label">
+                            Username
+                        </label>
+                        <input
+                            className="auth-input"
+                            type="text"
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(event) =>
+                                setUsername(
+                                    event.target.value
+                                )
+                            }
+                        />
+                    </div>
 
-                <div>
+                    <div className="auth-field">
+                        <label className="auth-label">
+                            Password
+                        </label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(event) =>
+                                setPassword(
+                                    event.target.value
+                                )
+                            }
+                        />
+                    </div>
 
-                    <label>Password</label>
+                    <div className="auth-field">
+                        <label className="auth-label">
+                            Confirm Password
+                        </label>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            placeholder="Confirm your password"
+                            value={confirmPassword}
+                            onChange={(event) =>
+                                setConfirmPassword(
+                                    event.target.value
+                                )
+                            }
+                        />
+                    </div>
 
-                    <br />
+                    <button
+                        type="submit"
+                        className="primary-button auth-submit"
+                    >
+                        Create account
+                    </button>
 
-                    <input
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(event) =>
-                            setPassword(
-                                event.target.value
-                            )
-                        }
-                    />
-
-                </div>
-
-                <br />
-
-                <div>
-
-                    <label>Confirm Password</label>
-
-                    <br />
-
-                    <input
-                        type="password"
-                        placeholder="Confirm password"
-                        value={confirmPassword}
-                        onChange={(event) =>
-                            setConfirmPassword(
-                                event.target.value
-                            )
-                        }
-                    />
-
-                </div>
-
-                <br />
-
-                <button type="submit">
-                    Create Account
-                </button>
-
-                <br />
-                <br />
-
-                <Link to="/login">
-                    Already have an account? Login
-                </Link>
-
-            </form>
-
+                    <p className="auth-footer">
+                        Already have an account?{" "}
+                        <Link
+                            className="auth-link"
+                            to="/login"
+                        >
+                            Login
+                        </Link>
+                    </p>
+                </form>
+            </div>
         </div>
     );
 }
