@@ -9,6 +9,9 @@ function Navbar({ username }) {
         localStorage.removeItem(
             "username"
         );
+        localStorage.removeItem(
+            "access_token"
+        );
 
         navigate("/login");
     }

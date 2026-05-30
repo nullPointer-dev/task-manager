@@ -1,23 +1,22 @@
 import api from "../api/axios";
 
-export async function getTasks(username) {
+export async function getTasks() {
 
     const response =
         await api.get(
-            `/users/${username}/tasks`
+            "/tasks/"
         );
 
     return response.data;
 }
 
 export async function createTask(
-    username,
     taskData
 ) {
 
     const response =
         await api.post(
-            `/users/${username}/tasks`,
+            "/tasks/",
             taskData
         );
 
@@ -25,14 +24,13 @@ export async function createTask(
 }
 
 export async function updateTask(
-    username,
     taskId,
     taskData
 ) {
 
     const response =
         await api.put(
-            `/users/${username}/tasks/${taskId}`,
+            `/tasks/${taskId}`,
             taskData
         );
 
@@ -40,13 +38,12 @@ export async function updateTask(
 }
 
 export async function deleteTask(
-    username,
     taskId
 ) {
 
     const response =
         await api.delete(
-            `/users/${username}/tasks/${taskId}`
+            `/tasks/${taskId}`
         );
 
     return response.data;

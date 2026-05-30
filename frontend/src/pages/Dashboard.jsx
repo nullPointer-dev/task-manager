@@ -14,7 +14,8 @@ function Dashboard() {
     const [showModal, setShowModal] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
     const username = localStorage.getItem("username");
-    if (!username) {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
         return <Navigate to="/login" />;
     }
 
@@ -25,7 +26,7 @@ function Dashboard() {
             try {
 
                 const tasksFromBackend =
-                    await getTasks(username);
+                    await getTasks();
 
                 setTasks(tasksFromBackend);
 
@@ -45,13 +46,10 @@ function Dashboard() {
         try {
 
             const newTask =
-                await createTask(
-                    username,
-                    taskData
-                );
+                await createTask(taskData);
 
             const tasksFromBackend =
-                await getTasks(username);
+                await getTasks();
 
             setTasks(tasksFromBackend);
 
@@ -70,13 +68,10 @@ function Dashboard() {
 
         try {
 
-            await deleteTask(
-                username,
-                taskId
-            );
+            await deleteTask(taskId);
 
             const tasksFromBackend =
-                await getTasks(username);
+                await getTasks();
 
             setTasks(tasksFromBackend);
 
@@ -99,7 +94,6 @@ function Dashboard() {
                 );
 
             await updateTask(
-                username,
                 taskId,
                 {
                     completed:
@@ -108,7 +102,7 @@ function Dashboard() {
             );
 
             const tasksFromBackend =
-                await getTasks(username);
+                await getTasks();
 
             setTasks(tasksFromBackend);
 
@@ -133,7 +127,6 @@ function Dashboard() {
         try {
 
             await updateTask(
-                username,
                 updatedTask.id,
                 {
                     title:
@@ -144,7 +137,7 @@ function Dashboard() {
             );
 
             const tasksFromBackend =
-                await getTasks(username);
+                await getTasks();
 
             setTasks(tasksFromBackend);
 
@@ -177,7 +170,7 @@ function Dashboard() {
     return (
         <div>
 
-            <Navbar username={username}  />
+            <Navbar username={username || "User"} />
 
             <AddTaskButton
                 onClick={() => {
