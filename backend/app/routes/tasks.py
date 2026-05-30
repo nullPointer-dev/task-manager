@@ -1,4 +1,4 @@
-from app.services import create_task, get_tasks, get_task, update_task, delete_task, get_user
+from app.services import create_task, get_tasks, get_task, update_task, delete_task
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.core import get_db
@@ -29,9 +29,8 @@ def get_task_route(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
-    if not task or task.owner_id != user.id:
+    if not task or task.owner_id != current_user.id:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
 
@@ -42,9 +41,8 @@ def update_task_route(
     db: Session = Depends(get_db), 
     current_user: User = Depends(get_current_user)
 ):
-    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
-    if not task or task.owner_id != user.id:
+    if not task or task.owner_id != current_user.id:
         raise HTTPException(status_code=404, detail="Task not found")
     return update_task(task_id, task_data, db)
 
@@ -54,9 +52,8 @@ def delete_task_route(
     db: Session = Depends(get_db), 
     current_user: User = Depends(get_current_user)
 ):
-    user = get_user(current_user.username, db)
     task = get_task(task_id, db)
-    if not task or task.owner_id != user.id:
+    if not task or task.owner_id != current_user.id:
         raise HTTPException(status_code=404, detail="Task not found")
     delete_task(task_id, db)
     return {"message": "Task deleted successfully"}

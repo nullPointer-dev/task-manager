@@ -7,9 +7,9 @@ from app.schemas import TokenResponse
 from app.dependencies import get_current_user
 from app.models import User
 
-router_users = APIRouter(prefix="/users", tags=["users"])
+router_users = APIRouter(tags=["users"])
 
-@router_users.post("/", response_model=UserResponse)
+@router_users.post("/register", response_model=UserResponse)
 def create_user_route(user_data: UserCreate, db: Session = Depends(get_db)):
     return create_user(user_data, db)
 
